@@ -1,7 +1,7 @@
 <?php
   //see README for instructions
   error_reporting(E_ALL);
-  ini_set("memory_limit","300M"); //datasets we are dealing with can be quite large, need enough space in memory
+  ini_set("memory_limit","400M"); //datasets we are dealing with can be quite large, need enough space in memory
   set_time_limit(0);
   date_default_timezone_set('America/Chicago');
   
@@ -114,8 +114,11 @@
 		    	"Full Address" => $fullAddress,
 		    	"X COORDINATE" => $row[23],
 		    	"Y COORDINATE" => $row[24],
-		    	"LATITUDE" => $row[25],
-		    	"LONGITUDE" => $row[26],
+		    	"Ward" => $row[25],
+		    	"Police District" => $row[26],
+		    	"Community Area" => $row[27],
+		    	"LATITUDE" => $row[28],
+		    	"LONGITUDE" => $row[29],
 		    	"Location" => "$row[25],$row[26]"
 		    	);
 		    
