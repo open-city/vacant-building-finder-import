@@ -119,7 +119,7 @@
 		    	"Community Area" => $row[27],
 		    	"LATITUDE" => $row[28],
 		    	"LONGITUDE" => $row[29],
-		    	"Location" => "$row[25],$row[26]"
+		    	"Location" => "$row[28],$row[29]"
 		    	);
 		    
 		      if (!in_array($fullAddress, $addresss)) {
