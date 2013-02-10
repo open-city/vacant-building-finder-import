@@ -135,7 +135,9 @@
                 fputcsv($fp, $insertArray); //save to CSV
               else {
   		    	   $ftclient->query(SQLBuilder::insert($fusionTableId, $insertArray));
-               sleep(2); //FT has an insert throughput limit
+               //FT has an insert throughput limit defined here: 
+               //https://developers.google.com/fusiontables/docs/v1/using#Geo
+               sleep(1); 
               }
   		    	  
               //keep track of addresses inserted
