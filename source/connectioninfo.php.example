@@ -7,6 +7,9 @@ class ConnectionInfo {
   public static $google_password = "xxxxxxx";
   public static $googleApiKey = "xxxxxxx"; //get yours here: https://code.google.com/apis/console/
   public static $fusionTableId = "1fK7H4ZDsWT-9sa09CjuJft3UBzxGcQlyPRBygEc"; //must be encrypted!
+
+  public static $url  = 'https://data.cityofchicago.org/api/views/7nii-7srd/rows.csv?accessType=DOWNLOAD';
+  public static $path = 'raw_vacant_buildings.csv';
   
 }
 ?>
