@@ -113,11 +113,14 @@ class SQLBuilder {
   //sets empty number fields to 0
   public function setEmptyToZero($value) {
     	$value = strtolower(trim($value));
-    	
-    	if (is_null($value) || $value == "")
+    	if (is_null($value) || $value == "" || $value == "false")
     		return 0;
     	else
     		return 1;
+  }
+
+  public function escape_string($value) {
+      return str_replace("'", "\'", $value);
   }
 }
 

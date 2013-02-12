@@ -53,8 +53,11 @@ class FTClientLogin {
     $json_result = json_decode($result);
 
     // check for errors
-    if (array_key_exists('error', $json_result))
+    if (array_key_exists('error', $json_result)) {
+      echo "Error in query\n";
+      echo $query . "\n";
       echo var_dump($json_result);
+    }
 
     // check for row results
     $rows = Array();
