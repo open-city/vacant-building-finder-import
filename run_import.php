@@ -20,13 +20,13 @@
   $path = ConnectionInfo::$path;
   
   echo "Chicago Vacant Building Finder import by Derek Eder\n";
-  // echo "Downloading from $url... \n";
+  echo "Downloading from $url... \n";
 
-  // $ch = curl_init($url);
-  // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  // $data = curl_exec($ch);
-  // curl_close($ch);
-  // file_put_contents($path, $data);
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $data = curl_exec($ch);
+  curl_close($ch);
+  file_put_contents($path, $data);
 
   $saved_file = fopen($path, 'r');
   $buildings_array = array();
