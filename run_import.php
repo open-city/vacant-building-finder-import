@@ -15,7 +15,7 @@
   $bgtime=time();
 
   //if this flag is set to true, no Fusion Table inserts will be made and everything will be saved to a CSV
-  $dump_to_csv = false;
+  $dump_to_csv = true;
   $url  = ConnectionInfo::$url;
   $path = ConnectionInfo::$path;
   
@@ -66,7 +66,7 @@
       if ($row[1] != "SERVICE REQUEST NUMBER") { //skip the header row
         $processCount++;
         if ($processCount % 1000 == 0) 
-          echo "processed $processCount rows";
+          echo "processed $processCount rows\n";
         //echo var_dump($row);
     		//convert received date in to DateTime format
     		$receivedDate = new DateTime($row[2]);
