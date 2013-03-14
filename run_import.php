@@ -15,7 +15,7 @@
   $bgtime=time();
 
   //if this flag is set to true, no Fusion Table inserts will be made and everything will be saved to a CSV
-  $dump_to_csv = true;
+  $dump_to_csv = false;
   $url  = ConnectionInfo::$url;
   $path = ConnectionInfo::$path;
   
@@ -126,13 +126,13 @@
                 $insertCount++;
                 echo "inserted $insertCount so far: " . $fullAddress . "\n";
               }
-            }
-            else if (new DateTime($row_received_date) < $receivedDate) {
-              $updated_date = new DateTime($row_received_date);
-              $row_id = fetch_by_address('ROWID', $fullAddress, $ftclient, $fusionTableId);
-              $ftclient->query(SQLBuilder::update($fusionTableId, $insertArray, $row_id));
-              $updateCount++;
-              echo "updated $updateCount so far: " . $fullAddress . " | " . $receivedDate->format('m/d/Y') . " > " . $updated_date->format('m/d/Y') . "\n";
+              else if (new DateTime($row_received_date) < $receivedDate) {
+                $updated_date = new DateTime($row_received_date);
+                $row_id = fetch_by_address('ROWID', $fullAddress, $ftclient, $fusionTableId);
+                $ftclient->query(SQLBuilder::update($fusionTableId, $insertArray, $row_id));
+                $updateCount++;
+                echo "updated $updateCount so far: " . $fullAddress . " | " . $receivedDate->format('m/d/Y') . " > " . $updated_date->format('m/d/Y') . "\n";
+              }
             }
           }
         }
