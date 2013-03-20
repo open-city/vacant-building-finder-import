@@ -134,6 +134,9 @@
                 echo "updated $updateCount so far: " . $fullAddress . " | " . $receivedDate->format('m/d/Y') . " > " . $updated_date->format('m/d/Y') . "\n";
               }
             }
+            else {
+              break; //if we hit a row that is older than one month, exit the loop
+            }
           }
         }
       }
