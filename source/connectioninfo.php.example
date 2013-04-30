@@ -10,6 +10,8 @@ class ConnectionInfo {
 
   public static $url  = 'https://data.cityofchicago.org/api/views/7nii-7srd/rows.csv?accessType=DOWNLOAD';
   public static $path = 'raw_vacant_buildings.csv';
+  public static $dump_to_csv = false;
+  public static $date_start_interval = 'week';
   
 }
 ?>

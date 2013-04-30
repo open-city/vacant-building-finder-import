@@ -15,18 +15,18 @@
   $bgtime=time();
 
   //if this flag is set to true, no Fusion Table inserts will be made and everything will be saved to a CSV
-  $dump_to_csv = false;
+  $dump_to_csv = ConnectionInfo::$dump_to_csv;
   $url  = ConnectionInfo::$url;
   $path = ConnectionInfo::$path;
   
   echo "Chicago Vacant Building Finder import by Derek Eder\n";
   echo "Downloading from $url... \n";
 
-  $ch = curl_init($url);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  $data = curl_exec($ch);
-  curl_close($ch);
-  file_put_contents($path, $data);
+  // $ch = curl_init($url);
+  // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  // $data = curl_exec($ch);
+  // curl_close($ch);
+  // file_put_contents($path, $data);
 
   $saved_file = fopen($path, 'r');
   $buildings_array = array();
@@ -45,6 +45,7 @@
     }
     else {
       echo "\nInserting in to Fusion Tables ...\n";
+      echo "\nChecking for reported buildings in the last " . ConnectionInfo::$date_start_interval;
       //Fetch info from Fusion Tables and do inserts & data manipulation
       
       //get token
@@ -61,6 +62,8 @@
     $updateCount = 0;
     $processCount = 0;
   	$unique_addresses = array();
+
+    $date_start = new DateTime('@' . strtotime('-1 ' . ConnectionInfo::$date_start_interval));
 
     foreach($buildings_array as $row) {
       if ($row[1] != "SERVICE REQUEST NUMBER") { //skip the header row
@@ -104,7 +107,7 @@
       	"LONGITUDE" => $row[21],
       	"Location" => "$row[20],$row[21]"
       	);
-      
+
         if (!in_array($fullAddress, $unique_addresses)) {
           if ($dump_to_csv) {
             fputcsv($fp, $insertArray); //save to CSV
@@ -112,31 +115,28 @@
             array_push($unique_addresses, $fullAddress);
             $insertCount++;
           }
-          else {
+          else if ($receivedDate > $date_start){
             //only look at rows in the last month
-            $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
-            if ($receivedDate > $oneMonthAgo) {
-              $row_received_date = fetch_by_address("'DATE RECEIVED'", $fullAddress, $ftclient, $fusionTableId);
-              if ($row_received_date == NULL) {
-                $ftclient->query(SQLBuilder::insert($fusionTableId, $insertArray));
+            $row_received_date = fetch_by_address("'DATE RECEIVED'", $fullAddress, $ftclient, $fusionTableId);
+            if ($row_received_date == NULL) {
+              $ftclient->query(SQLBuilder::insert($fusionTableId, $insertArray));
 
-                //FT has an insert throughput limit of 0.5 qps defined here: 
-                //https://developers.google.com/fusiontables/docs/v1/using#Geo
-                sleep(1); 
-                $insertCount++;
-                echo "inserted $insertCount so far: " . $fullAddress . "\n";
-              }
-              else if (new DateTime($row_received_date) < $receivedDate) {
-                $updated_date = new DateTime($row_received_date);
-                $row_id = fetch_by_address('ROWID', $fullAddress, $ftclient, $fusionTableId);
-                $ftclient->query(SQLBuilder::update($fusionTableId, $insertArray, $row_id));
-                $updateCount++;
-                echo "updated $updateCount so far: " . $fullAddress . " | " . $receivedDate->format('m/d/Y') . " > " . $updated_date->format('m/d/Y') . "\n";
-              }
+              //FT has an insert throughput limit of 0.5 qps defined here: 
+              //https://developers.google.com/fusiontables/docs/v1/using#Geo
+              sleep(1); 
+              $insertCount++;
+              echo "inserted $insertCount so far: " . $fullAddress . "\n";
             }
-            else {
-              break; //if we hit a row that is older than one month, exit the loop
+            else if (new DateTime($row_received_date) < $receivedDate) {
+              $updated_date = new DateTime($row_received_date);
+              $row_id = fetch_by_address('ROWID', $fullAddress, $ftclient, $fusionTableId);
+              $ftclient->query(SQLBuilder::update($fusionTableId, $insertArray, $row_id));
+              $updateCount++;
+              echo "updated $updateCount so far: " . $fullAddress . " | " . $receivedDate->format('m/d/Y') . " > " . $updated_date->format('m/d/Y') . "\n";
             }
+          }
+          else {
+            break; //if we hit a row that is older than one month, exit the loop
           }
         }
       }
