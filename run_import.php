@@ -1,7 +1,7 @@
 <?php
   //see README for instructions
   error_reporting(E_ALL);
-  ini_set("memory_limit","300M"); //datasets we are dealing with can be quite large, need enough space in memory
+  ini_set("memory_limit","800M"); //datasets we are dealing with can be quite large, need enough space in memory
   set_time_limit(0);
   date_default_timezone_set('America/Chicago');
   
