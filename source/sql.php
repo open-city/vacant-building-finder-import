@@ -98,7 +98,7 @@ class SQLBuilder {
   
   //added by Derek Eder
   //converts text to number based on the presence of a string. unknown fields are given a value of 2
-  public function convertToFlag($value, $stringCompare) {
+  public static function convertToFlag($value, $stringCompare) {
     	$value = strtolower(trim($value));
     	
     	if (is_null($value) || $value == "" || strpos($value, "unknown") !== false)
@@ -111,7 +111,7 @@ class SQLBuilder {
     
   //added by Derek Eder
   //sets empty number fields to 0
-  public function setEmptyToZero($value) {
+  public static function setEmptyToZero($value) {
     	$value = strtolower(trim($value));
     	if (is_null($value) || $value == "" || $value == "false")
     		return 0;
@@ -119,7 +119,7 @@ class SQLBuilder {
     		return 1;
   }
 
-  public function escape_string($value) {
+  public static function escape_string($value) {
       return str_replace("'", "\'", $value);
   }
 }

@@ -45,7 +45,7 @@
     }
     else {
       echo "\nInserting in to Fusion Tables ...\n";
-      echo "\nChecking for reported buildings in the last " . ConnectionInfo::$date_start_interval;
+      echo "\nChecking for reported buildings in the last " . ConnectionInfo::$date_start_interval . "\n";
       //Fetch info from Fusion Tables and do inserts & data manipulation
       
       //get token
