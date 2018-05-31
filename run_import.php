@@ -42,6 +42,7 @@
         echo "\nDumping to vacant_buildings.csv ...\n";
         //Saving all results to CSV and doing a full replace in Fusion Tables
         $fp = fopen('vacant_buildings.csv', 'w+');
+        fputcsv($fp, array("SERVICE REQUEST #", "DATE RECEIVED", "LOT LOCATION", "DANGEROUS OR HAZARDOUS?", "Dangerous flag", "OPEN OR BOARDED?", "Open flag", "ENTRY POINT", "VACANT OR OCCUPIED?", "Vacant flag", "VACANT DUE TO FIRE?", "Fire flag", "ANY PEOPLE USING PROPERTY?", "In use flag", "ADDRESS STREET NUMBER", "ADDRESS STREET DIRECTION", "ADDRESS STREET NAME", "ADDRESS STREET SUFFIX", "ZIP CODE", "Full Address", "X COORDINATE", "Y COORDINATE", "Ward", "Police District", "Community Area", "LATITUDE", "LONGITUDE", "Location"));
     }
     else {
       echo "\nInserting in to Fusion Tables ...\n";
